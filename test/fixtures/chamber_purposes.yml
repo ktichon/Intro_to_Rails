@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  purpose: MyString
+  dice_odds: 1
+  dungeon_purpose: one
+
+two:
+  purpose: MyString
+  dice_odds: 1
+  dungeon_purpose: two
