@@ -40,14 +40,16 @@ csv_data = File.read(Rails.root.join("db/DungeonLocation.csv"))
 location_list = CSV.parse(csv_data, headers: true, encoding: "utf-8")
 csv_data = File.read(Rails.root.join("db/DungeonHistory.csv"))
 history_list = CSV.parse(csv_data, headers: true, encoding: "utf-8")
+passage_purpose = DungeonPurpose.find_by(purpose: "General Dungeon Feature").chamber_purposes.first
 
-for i in 0..3 do
+for i in 1..5 do
+
   name = "Dungeon of the #{Faker::Games::DnD.background} #{Faker::Games::DnD.monster}"
   new_dungeon_details = create_dungeon(max_width, max_rooms, max_chambers, sizing )
   dungeon_purpose = DungeonPurpose.find(DungeonPurpose.ids.sample)
 
 
-  dungeon_purpose.dungeons.create(
+   new_dungeon = dungeon_purpose.dungeons.create(
     name: name,
     location: location_list[rand(location_list.count)]["location"],
     key_event: history_list[rand(history_list.count)]["key_event"],
@@ -55,6 +57,41 @@ for i in 0..3 do
     depth: new_dungeon_details[:max_y],
     chambers: new_dungeon_details[:num_chambers]
   )
+
+  if new_dungeon && new_dungeon.valid?
+
+    dungeon_rooms = new_dungeon_details[:all_rooms]
+    max_roll = dungeon_purpose.chamber_purposes.count;
+    roll_purpose = dungeon_purpose.chamber_purposes.order(:dice_odds)
+
+    dungeon_rooms.each do |new_room|
+
+      room_purpose = passage_purpose
+
+      if new_room.getType != 'p'
+
+        dice_roll = rand(max_roll) + 1
+
+        roll_purpose.each do |rolled_pur|
+
+          if rolled_pur["dice_odds"] >= dice_roll
+
+            room_purpose = rolled_pur
+            break
+          end
+        end
+      end
+      new_dungeon.rooms.create(
+        room_type: new_room.getType,
+        x1: new_room.getPoints[:x1],
+        x2: new_room.getPoints[:x2],
+        y1: new_room.getPoints[:y1],
+        y2: new_room.getPoints[:y2],
+        chamber_purpose_id: room_purpose["id"]
+      )
+    end
+    puts "Created #{new_dungeon_details[:num_rooms]} rooms for #{name}. Reason for ending #{new_dungeon_details[:end_reason]} "
+  end
 end
 
 
@@ -62,6 +99,7 @@ end
 puts "Created #{DungeonPurpose.count} Dungeon Purposes"
 puts "Created #{ChamberPurpose.count} Chamber Purposes"
 puts "Created #{Dungeon.count} Dungeons"
+puts "Created #{Room.count} Rooms"
 
 
 
