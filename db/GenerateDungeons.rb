@@ -52,7 +52,8 @@ def create_dungeon(maxWidth, maxRooms, maxChambers, realtive_sizing )
   adjust = realtive_sizing.div(2)
   start_Points = {:x1 => midPoint, :y1 => 0, :x2 => midPoint + realtive_sizing, :y2 => 0}
   exit_zero = {:from_points => start_Points, :direction => 2, :from => "s0" }
-  startingRoom = Room.new(exit_zero, realtive_sizing, adjust, 's')
+
+  startingRoom = NewRoom.new(exit_zero, realtive_sizing, adjust, 's')
 
   valid_rooms = [startingRoom]
   exits = startingRoom.getExits(valid_rooms.length)
@@ -72,7 +73,7 @@ def create_dungeon(maxWidth, maxRooms, maxChambers, realtive_sizing )
     new_room_type = roomTypes.sample
 
 
-    new_room = Room.new(currentExit, realtive_sizing, adjust, new_room_type)
+    new_room = NewRoom.new(currentExit, realtive_sizing, adjust, new_room_type)
 
     if(validate_Room(new_room.getPoints(), valid_rooms, maxWidth))
       valid_rooms.push(new_room)
@@ -119,6 +120,6 @@ def create_dungeon(maxWidth, maxRooms, maxChambers, realtive_sizing )
   :min_x => min_x, :max_x => max_x , :max_y => max_y}
 end
 
-printMap(create_dungeon(50, 50, 10, 3))
+
 
 

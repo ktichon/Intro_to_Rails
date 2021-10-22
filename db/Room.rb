@@ -1,4 +1,4 @@
-class Room
+class NewRoom
   def initialize(from_exit, widthFactor, fitDoorsNice, type)
      @direction = from_exit[:direction]
      from_points = from_exit[:from_points]
