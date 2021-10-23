@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_22_172541) do
+ActiveRecord::Schema.define(version: 2021_10_23_174754) do
 
   create_table "chamber_purposes", force: :cascade do |t|
     t.string "purpose"
@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(version: 2021_10_22_172541) do
     t.integer "dungeon_purpose_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "num_rooms"
     t.index ["dungeon_purpose_id"], name: "index_dungeons_on_dungeon_purpose_id"
   end
 

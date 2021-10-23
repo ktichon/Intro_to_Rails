@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  room_type: MyString
+  x1: 1
+  x2: 1
+  y1: 1
+  y2: 1
+  dungeon: one
+  chamber_purpose: one
+
+two:
+  room_type: MyString
+  x1: 1
+  x2: 1
+  y1: 1
+  y2: 1
+  dungeon: two
+  chamber_purpose: two

@@ -60,6 +60,7 @@ d_purpose_ids.each do |d_id|
     width: new_dungeon_details[:max_x],
     depth: new_dungeon_details[:max_y],
     chambers: new_dungeon_details[:num_chambers]
+    num_rooms: new_dungeon_details[:num_rooms]
   )
 
   if new_dungeon && new_dungeon.valid?
