@@ -36,17 +36,21 @@ chamber_purposes_list.each do |c_pur|
 end
 
 puts "Chamber Purposes Complete"
+puts "Creating Dungeons ...."
 csv_data = File.read(Rails.root.join("db/DungeonLocation.csv"))
 location_list = CSV.parse(csv_data, headers: true, encoding: "utf-8")
 csv_data = File.read(Rails.root.join("db/DungeonHistory.csv"))
 history_list = CSV.parse(csv_data, headers: true, encoding: "utf-8")
 passage_purpose = DungeonPurpose.find_by(purpose: "General Dungeon Feature").chamber_purposes.first
 
-for i in 1..5 do
+d_purpose_ids = DungeonPurpose.offset(1).pluck(:id)
+
+d_purpose_ids.each do |d_id|
 
   name = "Dungeon of the #{Faker::Games::DnD.background} #{Faker::Games::DnD.monster}"
   new_dungeon_details = create_dungeon(max_width, max_rooms, max_chambers, sizing )
-  dungeon_purpose = DungeonPurpose.find(DungeonPurpose.ids.sample)
+  #dungeon_purpose = DungeonPurpose.find(DungeonPurpose.ids.sample)
+  dungeon_purpose = DungeonPurpose.find(d_id)
 
 
    new_dungeon = dungeon_purpose.dungeons.create(
