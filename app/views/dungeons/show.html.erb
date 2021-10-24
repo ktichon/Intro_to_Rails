@@ -1,1 +1,12 @@
-<h1>Dungeons#show</h1>
+<% content_for :title, @dungeon.name%>
+<h2>Dungeon Information</h2>
+<ul>
+  <li>Location: <%= @dungeon.location%> </li>
+  <li>History: <%= @dungeon.key_event%> </li>
+  <li>Purpose: <%= link_to @dungeon.dungeon_purpose.purpose, @dungeon.dungeon_purpose%> </li>
+  <li>Max width: <%= @dungeon.width * 5%> ft</li>
+  <li>Max depth: <%= @dungeon.depth * 5%> ft</li>
+  <li># Chambers: <%= @dungeon.chambers%> </li>
+  <li>Total # Rooms: <%= @dungeon.num_rooms%> </li>
+</ul>
+<h2>Rooms</h2>

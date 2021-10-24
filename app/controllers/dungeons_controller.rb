@@ -4,6 +4,6 @@ class DungeonsController < ApplicationController
   end
 
   def show
-    @dungeon = Dungeon.includes()
+    @dungeon = Dungeon.find(params[:id])
   end
 end

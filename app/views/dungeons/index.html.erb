@@ -1,2 +1,19 @@
 <% content_for :title, "All Dungeons" %>
-<p>Find me in app/views/dungeons/index.html.erb</p>
+<h2>Table of all dungeons</h2>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Purpose</th>
+    <th># of Rooms</th>
+  </tr>
+  <% @dungeons.each do |dungeon| %>
+    <tr>
+      <td><%= link_to dungeon.name, dungeon%></td>
+      <td><%= link_to dungeon.dungeon_purpose.purpose, dungeon.dungeon_purpose%></td>
+      <td><%= dungeon.num_rooms %></td>
+    </tr>
+  <% end %>
+
+</table>
+
+

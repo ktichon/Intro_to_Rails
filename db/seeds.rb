@@ -47,7 +47,7 @@ d_purpose_ids = DungeonPurpose.offset(1).pluck(:id)
 
 d_purpose_ids.each do |d_id|
 
-  name = "Dungeon of the #{Faker::Games::DnD.background} #{Faker::Games::DnD.monster}"
+  name = "Dungeon of the #{Faker::Emotion.adjective.capitalize} #{Faker::Games::DnD.background} #{Faker::Games::DnD.monster}"
   new_dungeon_details = create_dungeon(max_width, max_rooms, max_chambers, sizing )
   #dungeon_purpose = DungeonPurpose.find(DungeonPurpose.ids.sample)
   dungeon_purpose = DungeonPurpose.find(d_id)
@@ -59,7 +59,7 @@ d_purpose_ids.each do |d_id|
     key_event: history_list[rand(history_list.count)]["key_event"],
     width: new_dungeon_details[:max_x],
     depth: new_dungeon_details[:max_y],
-    chambers: new_dungeon_details[:num_chambers]
+    chambers: new_dungeon_details[:num_chambers],
     num_rooms: new_dungeon_details[:num_rooms]
   )
 

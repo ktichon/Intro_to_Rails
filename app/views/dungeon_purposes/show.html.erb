@@ -1,2 +1,49 @@
-<h1>DungeonPurposes#show</h1>
-<p>Find me in app/views/dungeon_purposes/show.html.erb</p>
+<% content_for :title, @dungeon_purpose.purpose %>
+<% chamber_purposes_ordered = @dungeon_purpose.chamber_purposes.order("dice_odds ASC")%>
+<% top_roll = chamber_purposes_ordered.last.dice_odds%>
+<ul>
+  <li>Total # of dungeons: <%= @dungeon_purpose.dungeons.count%> </li>
+  <li>Dice used to decide chamber purpose: d<%= top_roll %> </li>
+</ul>
+
+<h3>Dungeons</h3>
+<table>
+  <tr>
+    <th>Name</th>
+    <th># of Rooms</th>
+  </tr>
+  <% @dungeon_purpose.dungeons.each do |dungeon| %>
+    <tr>
+      <td><%= link_to dungeon.name, dungeon%></td>
+      <td><%= dungeon.num_rooms %></td>
+    </tr>
+  <% end %>
+</table>
+
+<h3>Chambers</h3>
+<table>
+  <tr>
+    <th>Purpose</th>
+    <th>Roll</th>
+    <th>Odds</th>
+  </tr>
+  <% last_roll = 1%>
+  <% chamber_purposes_ordered.each do |c_purpose| %>
+    <tr>
+      <td><%= link_to c_purpose.purpose, c_purpose%></td>
+      <% if last_roll == c_purpose.dice_odds%>
+        <td><%= c_purpose.dice_odds%></td>
+      <% else %>
+        <td><%= last_roll%>-<%= c_purpose.dice_odds%></td>
+      <% end %>
+      <td><%= ((c_purpose.dice_odds - last_roll + 1)/top_roll.to_f * 100).round(2) %>%</td>
+      <% last_roll = c_purpose.dice_odds + 1 %>
+    </tr>
+  <% end %>
+</table>
+
+
+
+
+
+
