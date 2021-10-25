@@ -1,4 +1,6 @@
 class Dungeon < ApplicationRecord
+  has_many :adventure_in_dungeons
+  has_many :adventures, through: :adventure_in_dungeons
   belongs_to :dungeon_purpose
   has_many :rooms;
   validates  :name, uniqueness: true

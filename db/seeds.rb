@@ -9,6 +9,8 @@
 require "csv"
 require_relative 'GenerateDungeons'
 
+AdventureInDungeon.delete_all
+Adventure.delete_all
 Room.delete_all
 Dungeon.delete_all
 ChamberPurpose.delete_all
@@ -35,19 +37,28 @@ chamber_purposes_list.each do |c_pur|
   end
 end
 
+adventures = []
+for i in 0..4 do
+
+  a_name = "The #{Faker::Science.modifier } #{Faker::Verb.base} of #{Faker::Name.name} #{Faker::Superhero.suffix}"
+  a_description = Faker::Books::Lovecraft.paragraph
+  adventures.push([a_name, a_description])
+end
+
 puts "Chamber Purposes Complete"
 puts "Creating Dungeons ...."
 csv_data = File.read(Rails.root.join("db/DungeonLocation.csv"))
 location_list = CSV.parse(csv_data, headers: true, encoding: "utf-8")
 csv_data = File.read(Rails.root.join("db/DungeonHistory.csv"))
 history_list = CSV.parse(csv_data, headers: true, encoding: "utf-8")
+csv_data = File.read(Rails.root.join("db/AdventureGoals.csv"))
+goals_list = CSV.parse(csv_data, headers: true, encoding: "utf-8")
 
 d_purpose_ids = DungeonPurpose.pluck(:id)
 
-def addDungeonToDataBase(dungeon_purpose_id, location_list, history_list)
+def addDungeonToDataBase(dungeon_purpose_id, location_list, history_list, adventures_list, goals_list)
   name = "Dungeon of the #{Faker::Emotion.adjective.capitalize} #{Faker::Games::DnD.background} #{Faker::Games::DnD.monster}"
   new_dungeon_details = create_dungeon(@max_width, @max_rooms, @max_chambers, @sizing )
-  #dungeon_purpose = DungeonPurpose.find(DungeonPurpose.ids.sample)
   dungeon_purpose = DungeonPurpose.find(dungeon_purpose_id)
 
 
@@ -63,7 +74,15 @@ def addDungeonToDataBase(dungeon_purpose_id, location_list, history_list)
 
 
 
+
+
   if new_dungeon && new_dungeon.valid?
+
+    for i in 0..2 do
+      adventureArray = adventures_list.sample
+      adventure = Adventure.find_or_create_by(name: adventureArray[0], description: adventureArray[1])
+      AdventureInDungeon.create(adventure: adventure, dungeon: new_dungeon, goal: goals_list[rand(goals_list.count)])
+    end
 
     dungeon_rooms = new_dungeon_details[:all_rooms]
     max_roll = dungeon_purpose.chamber_purposes.count;
@@ -97,17 +116,19 @@ def addDungeonToDataBase(dungeon_purpose_id, location_list, history_list)
       )
       room_number += 1
     end
+
+
     puts "Created #{new_dungeon_details[:num_rooms]} rooms for #{name}. Reason for ending #{new_dungeon_details[:end_reason]} "
   end
 end
 
 
 d_purpose_ids.each do |d_id|
-  addDungeonToDataBase(d_id, location_list, history_list)
+  addDungeonToDataBase(d_id, location_list, history_list, adventures, goals_list)
 end
 
 
-
+puts "Created #{Adventure.count} Adventures"
 puts "Created #{DungeonPurpose.count} Dungeon Purposes"
 puts "Created #{ChamberPurpose.count} Chamber Purposes"
 puts "Created #{Dungeon.count} Dungeons"

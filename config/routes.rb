@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'adventures/index'
+  get 'adventures/show'
   get 'home/index'
   get 'about/index'
   resources :chamber_purposes, only: [:index, :show]
