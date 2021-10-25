@@ -14,10 +14,10 @@ Dungeon.delete_all
 ChamberPurpose.delete_all
 DungeonPurpose.delete_all
 
-max_width = 100
-max_rooms = 100
-max_chambers = 10
-sizing = 3
+@max_width = 100
+@max_rooms = 100
+@max_chambers = 10
+@sizing = 3
 
 file_name = Rails.root.join("db/Chamber_Purpose.csv")
 puts "Loading Chamber Purposes from CSV file: #{file_name}"
@@ -41,16 +41,14 @@ csv_data = File.read(Rails.root.join("db/DungeonLocation.csv"))
 location_list = CSV.parse(csv_data, headers: true, encoding: "utf-8")
 csv_data = File.read(Rails.root.join("db/DungeonHistory.csv"))
 history_list = CSV.parse(csv_data, headers: true, encoding: "utf-8")
-passage_purpose = DungeonPurpose.find_by(purpose: "General Dungeon Feature").chamber_purposes.first
 
-d_purpose_ids = DungeonPurpose.offset(1).pluck(:id)
+d_purpose_ids = DungeonPurpose.pluck(:id)
 
-d_purpose_ids.each do |d_id|
-
+def addDungeonToDataBase(dungeon_purpose_id, location_list, history_list)
   name = "Dungeon of the #{Faker::Emotion.adjective.capitalize} #{Faker::Games::DnD.background} #{Faker::Games::DnD.monster}"
-  new_dungeon_details = create_dungeon(max_width, max_rooms, max_chambers, sizing )
+  new_dungeon_details = create_dungeon(@max_width, @max_rooms, @max_chambers, @sizing )
   #dungeon_purpose = DungeonPurpose.find(DungeonPurpose.ids.sample)
-  dungeon_purpose = DungeonPurpose.find(d_id)
+  dungeon_purpose = DungeonPurpose.find(dungeon_purpose_id)
 
 
    new_dungeon = dungeon_purpose.dungeons.create(
@@ -63,15 +61,18 @@ d_purpose_ids.each do |d_id|
     num_rooms: new_dungeon_details[:num_rooms]
   )
 
+
+
   if new_dungeon && new_dungeon.valid?
 
     dungeon_rooms = new_dungeon_details[:all_rooms]
     max_roll = dungeon_purpose.chamber_purposes.count;
     roll_purpose = dungeon_purpose.chamber_purposes.order(:dice_odds)
+    room_number = 1;
 
     dungeon_rooms.each do |new_room|
 
-      room_purpose = passage_purpose
+      room_purpose = nil
 
       if new_room.getType != 'p'
 
@@ -80,7 +81,6 @@ d_purpose_ids.each do |d_id|
         roll_purpose.each do |rolled_pur|
 
           if rolled_pur["dice_odds"] >= dice_roll
-
             room_purpose = rolled_pur
             break
           end
@@ -92,11 +92,18 @@ d_purpose_ids.each do |d_id|
         x2: new_room.getPoints[:x2],
         y1: new_room.getPoints[:y1],
         y2: new_room.getPoints[:y2],
-        chamber_purpose_id: room_purpose["id"]
+        num: room_number,
+        chamber_purpose: room_purpose
       )
+      room_number += 1
     end
     puts "Created #{new_dungeon_details[:num_rooms]} rooms for #{name}. Reason for ending #{new_dungeon_details[:end_reason]} "
   end
+end
+
+
+d_purpose_ids.each do |d_id|
+  addDungeonToDataBase(d_id, location_list, history_list)
 end
 
 

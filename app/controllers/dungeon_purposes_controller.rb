@@ -1,6 +1,6 @@
 class DungeonPurposesController < ApplicationController
   def index
-    @dungeon_purposes = DungeonPurpose.all.offset(1)
+    @dungeon_purposes = DungeonPurpose.all
   end
 
   def show

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_23_174754) do
+ActiveRecord::Schema.define(version: 2021_10_25_194756) do
 
   create_table "chamber_purposes", force: :cascade do |t|
     t.string "purpose"
@@ -48,9 +48,10 @@ ActiveRecord::Schema.define(version: 2021_10_23_174754) do
     t.integer "y1"
     t.integer "y2"
     t.integer "dungeon_id", null: false
-    t.integer "chamber_purpose_id", null: false
+    t.integer "chamber_purpose_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "num"
     t.index ["chamber_purpose_id"], name: "index_rooms_on_chamber_purpose_id"
     t.index ["dungeon_id"], name: "index_rooms_on_dungeon_id"
   end

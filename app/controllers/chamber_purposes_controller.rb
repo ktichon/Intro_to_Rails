@@ -1,6 +1,6 @@
 class ChamberPurposesController < ApplicationController
   def index
-    @chamber_purposes = ChamberPurpose.includes(:dungeon_purpose).all.offset(1)
+    @chamber_purposes = ChamberPurpose.includes(:dungeon_purpose).all
   end
 
   def show
