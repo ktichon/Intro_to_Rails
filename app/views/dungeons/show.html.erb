@@ -9,5 +9,13 @@
   <li># Chambers: <%= @dungeon.chambers%> </li>
   <li>Total # Rooms: <%= @dungeon.num_rooms%> </li>
 </ul>
+
+<h2>Adventures</h2>
+<ul>
+  <% @dungeon.adventure_in_dungeons.each do |adventure| %>
+    <li><%= link_to adventure.adventure.name, adventure.adventure %>, goal: <%= adventure.goal%> </li>
+  <% end %>
+<ul>
+
 <h2>Rooms</h2>
 <%= render partial: @dungeon.rooms, locals: {show_dungeon:false}%>

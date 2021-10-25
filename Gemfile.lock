@@ -1,4 +1,22 @@
 GIT
+  remote: https://github.com/kaminari/kaminari.git
+  revision: 73b93405b95615b5ad3f53c3dffe419a59890cad
+  branch: master
+  specs:
+    kaminari (1.2.1)
+      activesupport (>= 4.1.0)
+      kaminari-actionview (= 1.2.1)
+      kaminari-activerecord (= 1.2.1)
+      kaminari-core (= 1.2.1)
+    kaminari-actionview (1.2.1)
+      actionview
+      kaminari-core (= 1.2.1)
+    kaminari-activerecord (1.2.1)
+      activerecord
+      kaminari-core (= 1.2.1)
+    kaminari-core (1.2.1)
+
+GIT
   remote: https://github.com/stympy/faker.git
   revision: f160a89366404cfd8ac6ea7c45bb64c61c0dd74b
   branch: master
@@ -217,6 +235,7 @@ DEPENDENCIES
   capybara (>= 3.26)
   faker!
   jbuilder (~> 2.7)
+  kaminari!
   listen (~> 3.3)
   puma (~> 5.0)
   rack-mini-profiler (~> 2.0)

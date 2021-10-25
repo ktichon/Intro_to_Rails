@@ -40,7 +40,7 @@ end
 adventures = []
 for i in 0..4 do
 
-  a_name = "The #{Faker::Science.modifier } #{Faker::Verb.base} of #{Faker::Name.name} #{Faker::Superhero.suffix}"
+  a_name = "The #{Faker::Science.modifier } #{Faker::Verb.base.capitalize} of #{Faker::Name.name} #{Faker::Superhero.suffix}"
   a_description = Faker::Books::Lovecraft.paragraph
   adventures.push([a_name, a_description])
 end

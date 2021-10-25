@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
-  get 'adventures/index'
-  get 'adventures/show'
+
   get 'home/index'
   get 'about/index'
+  resources :adventures, only: [:index, :show]
   resources :chamber_purposes, only: [:index, :show]
   resources :dungeon_purposes, only: [:index, :show]
   resources :rooms, only: [:index, :show]
