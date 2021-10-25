@@ -10,4 +10,4 @@
   <li>Total # Rooms: <%= @dungeon.num_rooms%> </li>
 </ul>
 <h2>Rooms</h2>
-<%= render partial: @dungeon.rooms%>
+<%= render partial: @dungeon.rooms, locals: {show_dungeon:false}%>

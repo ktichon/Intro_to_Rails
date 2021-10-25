@@ -1,2 +1,26 @@
 <% content_for :title, "All Chamber Purposes" %>
-<p>Find me in app/views/chamber_purposes/index.html.erb</p>
+<table>
+  <tr>
+    <th>Purpose</th>
+    <th>Dungeon Type</th>
+    <th>Roll</th>
+  </tr>
+  <% last_roll = 1%>
+
+  <% @chamber_purposes.each do |c_purpose| %>
+    <%if c_purpose.dice_odds < last_roll %>
+      <% last_roll = 1%>
+    <% end %>
+
+    <tr>
+      <td><%= link_to c_purpose.purpose, c_purpose%></td>
+       <td><%= link_to c_purpose.dungeon_purpose.purpose, c_purpose.dungeon_purpose%></td>
+      <% if last_roll == c_purpose.dice_odds%>
+        <td><%= c_purpose.dice_odds%></td>
+      <% else %>
+        <td><%= last_roll%>-<%= c_purpose.dice_odds%></td>
+      <% end %>
+      <% last_roll = c_purpose.dice_odds + 1 %>
+    </tr>
+  <% end %>
+</table>

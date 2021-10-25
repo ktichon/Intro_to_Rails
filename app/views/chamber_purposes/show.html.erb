@@ -1,2 +1,28 @@
-<h1>ChamberPurposes#show</h1>
-<p>Find me in app/views/chamber_purposes/show.html.erb</p>
+<% content_for :title, @chamber_purpose.dungeon_purpose.purpose + ": " + @chamber_purpose.purpose %>
+
+<ul>
+  <li>Dungeon Type: <%= link_to @chamber_purpose.dungeon_purpose.purpose, @chamber_purpose.dungeon_purpose %></li>
+  <li>Roll: <%= @chamber_roll%> <li>
+  <li>Dice odds:  <%= @chamber_odds%></li>
+
+</ul>
+<h3>Rooms</h3>
+
+<table>
+  <tr>
+    <th>Dungeon</th>
+    <th>Room #</th>
+    <th>Bottom Right Point</th>
+    <th>Top Left Point</th>
+  </tr>
+  <% @chamber_purpose.rooms.each do |room| %>
+    <tr>
+      <td><%= link_to room.dungeon.name, room.dungeon%></td>
+      <td><%= room.num %></td>
+      <td><%= room.x1 %>, <%= room.y1 %></td>
+      <td><%= room.x2 %>, <%= room.y2 %></td>
+    </tr>
+  <% end %>
+
+</table>
+

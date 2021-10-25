@@ -1,5 +1,5 @@
 <% content_for :title, @room.dungeon.name + " " + @room.num %>
 
 <ul>
-  <%= render @room%>
+  <%= render partial @room locals: {show_dungeon:true}%>
 </ul>

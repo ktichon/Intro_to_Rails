@@ -1,4 +1,4 @@
 <% content_for :title, "All Rooms" %>
 <ul>
-  <%= render @rooms%>
+  <%= render partial: @rooms, locals: {show_dungeon:true}%>
 </ul>
