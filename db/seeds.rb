@@ -38,7 +38,7 @@ chamber_purposes_list.each do |c_pur|
 end
 
 adventures = []
-for i in 0..4 do
+for i in 0..8 do
 
   a_name = "The #{Faker::Science.modifier } #{Faker::Verb.base.capitalize} of #{Faker::Name.name} #{Faker::Superhero.suffix}"
   a_description = Faker::Books::Lovecraft.paragraph
@@ -125,6 +125,7 @@ end
 
 d_purpose_ids.each do |d_id|
   addDungeonToDataBase(d_id, location_list, history_list, adventures, goals_list)
+  addDungeonToDataBase(d_purpose_ids.sample, location_list, history_list, adventures, goals_list)
 end
 
 

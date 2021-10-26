@@ -6,7 +6,11 @@ Rails.application.routes.draw do
   resources :chamber_purposes, only: [:index, :show]
   resources :dungeon_purposes, only: [:index, :show]
   resources :rooms, only: [:index, :show]
-  resources :dungeons, only: [:index, :show]
+  resources :dungeons, only: [:index, :show] do
+    collection do
+      get "search"
+    end
+  end
 
   root to: "home#index"
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html

@@ -1,4 +1,12 @@
 <% content_for :title, "All Dungeons" %>
+<%= form_with(url:search_dungeons_path, method: :get, local: true) do %>
+  <%= text_field_tag(:keywords, nil, class: "input", placeholder: "Search for Dungeons") %>
+  <%= select_tag :type, options_for_select(@dungeonTypes) %>
+  <%= submit_tag("Search", class: "button is-primary")%>
+<% end %>
+
+
+
 <h2>Table of all dungeons</h2>
 <table>
   <tr>
@@ -6,14 +14,7 @@
     <th>Purpose</th>
     <th># of Rooms</th>
   </tr>
-  <% @dungeons.each do |dungeon| %>
-    <tr>
-      <td><%= link_to dungeon.name, dungeon%></td>
-      <td><%= link_to dungeon.dungeon_purpose.purpose, dungeon.dungeon_purpose%></td>
-      <td><%= dungeon.num_rooms %></td>
-    </tr>
-  <% end %>
-
+  <%= render partial: @dungeons%>
 </table>
 
 

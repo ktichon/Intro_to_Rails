@@ -1,6 +1,6 @@
 class ChamberPurposesController < ApplicationController
   def index
-    @chamber_purposes = ChamberPurpose.includes(:dungeon_purpose).all
+    @chamber_purposes = ChamberPurpose.includes(:dungeon_purpose).order(:dungeon_purpose).page(params[:page])
   end
 
   def show
