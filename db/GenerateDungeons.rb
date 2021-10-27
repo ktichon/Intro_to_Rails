@@ -64,7 +64,7 @@ def create_dungeon(maxWidth, maxRooms, maxChambers, realtive_sizing )
     end
 
     currentExit = exits.shift().clone
-    roomTypes = ['p','p', 'p', 'c']
+    roomTypes = ['p','p', 'c']
     if(!(currentExit[:from].include? 'p'))
       roomTypes = ['p']
     end

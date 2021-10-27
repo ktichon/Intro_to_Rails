@@ -127,9 +127,6 @@ def addDungeonToDataBase(dungeon_purpose_id, location_list, history_list, advent
         y1: new_room.getPoints[:y1],
         y2: new_room.getPoints[:y2],
         num: room_number,
-        width: new_room.getWidth,
-        length: new_room.getLength,
-        direction: getDir(new_room.getDirection()),
         chamber_purpose: room_purpose
       )
       room_number += 1
