@@ -1,8 +1,17 @@
 <% content_for :title, "All Dungeon Purposes" %>
-<h2>Purposes</h2>
-<ul>
+<div class="row">
+  <div class = "col">
+    <h2>Purposes</h2>
+  </div>
+</div>
+
+<div class = "row">
   <% @dungeon_purposes.each do |d_purpose|%>
-    <li><%= link_to d_purpose.purpose, d_purpose %></li>
+    <div class = "col border border-primary" style="background-color:lavender;"><%= link_to d_purpose.purpose, d_purpose %></div>
   <% end %>
-<ul>
+
+</div>
+
+
+
 

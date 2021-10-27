@@ -6,6 +6,8 @@ class DungeonsController < ApplicationController
   end
 
   def show
+    dungeonTypes = DungeonPurpose.pluck(:purpose)
+    @dungeonTypes = dungeonTypes.insert(0,'None')
     @dungeon = Dungeon.find(params[:id])
 
   end

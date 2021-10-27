@@ -5,7 +5,7 @@ def validate_Room(room_points, rooms_to_check, maxWidth)
     return true
   end
 
-  if(room_points[:x1] <= 0 || room_points[:x2] >= maxWidth)
+  if(room_points[:x1] <= 0 || room_points[:x2] >= maxWidth || room_points[:y1] < 0|| room_points[:y2] < 0 )
     return false
   end
   rooms_to_check.each do |checkRoom|
@@ -58,7 +58,7 @@ def create_dungeon(maxWidth, maxRooms, maxChambers, realtive_sizing )
   valid_rooms = [startingRoom]
   exits = startingRoom.getExits(valid_rooms.length)
   numChambers = 0
-  while !exits.empty?
+  while numChambers != maxChambers
     if(valid_rooms.length == maxRooms || numChambers == maxChambers )
       break
     end
@@ -81,6 +81,16 @@ def create_dungeon(maxWidth, maxRooms, maxChambers, realtive_sizing )
       if(new_room_type == 'c')
         numChambers += 1
       end
+    end
+
+    if exits.empty?
+      deepest_room = startingRoom
+      valid_rooms.each do |getLowestRoom|
+        if (getLowestRoom.getPoints()[:y2] > deepest_room.getPoints()[:y2])
+          deepest_room = getLowestRoom;
+        end
+      end
+      exits.push(*deepest_room.getExits(valid_rooms.length))
     end
   end
 

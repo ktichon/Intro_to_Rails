@@ -6,7 +6,7 @@ class NewRoom
      @length =  widthFactor
      @width = 1
      @adjustment = 0
-     if(type == 'p' || (from_exit[:from].include? 's'))
+     if((type == 'p' and from_exit[:direction] != from_exit[:direction] )|| (from_exit[:from].include? 's'))
       @adjustment = fitDoorsNice
      end
      if(type == 'c')
@@ -17,6 +17,8 @@ class NewRoom
       @length += 2
      end
 
+
+
     #  if (type == 's')
     #   @width = widthFactor + 1
     #   @length += 1
@@ -24,14 +26,14 @@ class NewRoom
     case @direction
     when 0
       @x1 = from_points[:x1] + @adjustment
-      @y1 = from_points[:y1] + @length
+      @y1 = from_points[:y1] - @length
       @x2 = from_points[:x1] + @width + @adjustment
       @y2 = from_points[:y1]
     when 1
       @x1 = from_points[:x2]
       @y1 = from_points[:y1] + @adjustment
       @x2 = from_points[:x2] + @length
-      @y2 = from_points[:y2] + @width + @adjustment
+      @y2 = from_points[:y1] + @width + @adjustment
     when 2
       @x1 = from_points[:x2] - @width - @adjustment
       @y1 = from_points[:y2]
@@ -64,6 +66,16 @@ class NewRoom
     return @type
   end
 
+  def getWidth()
+    return @width
+  end
+
+  def getLength()
+    return @length
+  end
+
+
+
   def getExits(id)
     num_exit_odds = [1,1,1,2,2,3]
     if (getType == 'c')
@@ -78,7 +90,7 @@ class NewRoom
     for i in 0...num_exits
       random_direction = available_exits.sample
       available_exits.delete(random_direction)
-      exits.push({:from_points => getPoints, :direction => checkDirection(random_direction + getDirection()), :from => "#{getType}#{id}" })
+      exits.push({:from_points => getPoints, :old_direction => getDirection(), :direction => checkDirection(random_direction + getDirection()), :from => "#{getType}#{id}" })
     end
     return exits
 

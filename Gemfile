@@ -57,3 +57,5 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'faker', :git => 'https://github.com/stympy/faker.git', :branch => 'master'
 gem 'kaminari', :git => 'https://github.com/kaminari/kaminari.git', :branch => 'master'
+gem 'bootstrap', :git => 'https://github.com/twbs/bootstrap-rubygem.git', :branch => 'master'
+gem 'jquery-rails'

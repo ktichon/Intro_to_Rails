@@ -9,6 +9,21 @@
 require "csv"
 require_relative 'GenerateDungeons'
 
+def getDir(direction)
+  case direction
+  when 1
+    return 'right'
+  when 2
+    return 'down'
+  when 3
+    return 'left'
+  else
+    return 'up'
+  end
+end
+
+
+
 AdventureInDungeon.delete_all
 Adventure.delete_all
 Room.delete_all
@@ -16,7 +31,7 @@ Dungeon.delete_all
 ChamberPurpose.delete_all
 DungeonPurpose.delete_all
 
-@max_width = 100
+@max_width = 30
 @max_rooms = 100
 @max_chambers = 10
 @sizing = 3
@@ -38,7 +53,7 @@ chamber_purposes_list.each do |c_pur|
 end
 
 adventures = []
-for i in 0..8 do
+for i in 0..10 do
 
   a_name = "The #{Faker::Science.modifier } #{Faker::Verb.base.capitalize} of #{Faker::Name.name} #{Faker::Superhero.suffix}"
   a_description = Faker::Books::Lovecraft.paragraph
@@ -78,7 +93,7 @@ def addDungeonToDataBase(dungeon_purpose_id, location_list, history_list, advent
 
   if new_dungeon && new_dungeon.valid?
 
-    for i in 0..2 do
+    for i in 0..1 do
       adventureArray = adventures_list.sample
       adventure = Adventure.find_or_create_by(name: adventureArray[0], description: adventureArray[1])
       AdventureInDungeon.create(adventure: adventure, dungeon: new_dungeon, goal: goals_list[rand(goals_list.count)])
@@ -112,6 +127,9 @@ def addDungeonToDataBase(dungeon_purpose_id, location_list, history_list, advent
         y1: new_room.getPoints[:y1],
         y2: new_room.getPoints[:y2],
         num: room_number,
+        width: new_room.getWidth,
+        length: new_room.getLength,
+        direction: getDir(new_room.getDirection()),
         chamber_purpose: room_purpose
       )
       room_number += 1
@@ -125,7 +143,7 @@ end
 
 d_purpose_ids.each do |d_id|
   addDungeonToDataBase(d_id, location_list, history_list, adventures, goals_list)
-  addDungeonToDataBase(d_purpose_ids.sample, location_list, history_list, adventures, goals_list)
+  #addDungeonToDataBase(d_purpose_ids.sample, location_list, history_list, adventures, goals_list)
 end
 
 

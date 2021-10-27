@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_25_215546) do
+ActiveRecord::Schema.define(version: 2021_10_26_224327) do
 
   create_table "adventure_in_dungeons", force: :cascade do |t|
     t.integer "adventure_id", null: false
@@ -69,6 +69,9 @@ ActiveRecord::Schema.define(version: 2021_10_25_215546) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "num"
+    t.string "direction"
+    t.integer "length"
+    t.integer "width"
     t.index ["chamber_purpose_id"], name: "index_rooms_on_chamber_purpose_id"
     t.index ["dungeon_id"], name: "index_rooms_on_dungeon_id"
   end
