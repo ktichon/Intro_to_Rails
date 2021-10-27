@@ -1,5 +1,5 @@
 <% content_for :title, "All Rooms" %>
 <ul>
-  <%= render partial: @rooms, locals: {show_dungeon:true}%>
+  <%= render partial: @rooms%>
 </ul>
 <%= paginate @rooms %>

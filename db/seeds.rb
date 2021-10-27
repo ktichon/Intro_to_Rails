@@ -143,7 +143,7 @@ end
 
 d_purpose_ids.each do |d_id|
   addDungeonToDataBase(d_id, location_list, history_list, adventures, goals_list)
-  #addDungeonToDataBase(d_purpose_ids.sample, location_list, history_list, adventures, goals_list)
+  addDungeonToDataBase(d_purpose_ids.sample, location_list, history_list, adventures, goals_list)
 end
 
 

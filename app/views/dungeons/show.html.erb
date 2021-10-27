@@ -34,20 +34,15 @@
 
     <% dimensions = "height:#{(room.y2 - room.y1) * size }px;width:#{(room.x2 - room.x1) * size }px;" %>
     <div class="room" style="<%= position + positioning + dimensions%>border" >
-      <%= room.num %>, <%= room.direction%>,<%= room.width%>,<%= room.length%>
-       <% if room.chamber_purpose == nil %>
-          <%= "p"%>
-        <% else %>
-          <%= "c" %>
-        <% end %>
+      <p>
+         <%= link_to room.num, room %>
+          <% if room.chamber_purpose != nil %>
+              <%= link_to room.chamber_purpose.purpose, room.chamber_purpose%>
+            <% end %>
+      </p>
+
 
     </div>
 
   <% end %>
-</div>
-
-<div class = "container">
-<ol>
-  <%= render partial: @dungeon.rooms, locals: {show_dungeon:false}%>
-</ol>
 </div>
