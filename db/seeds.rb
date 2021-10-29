@@ -132,8 +132,11 @@ def addDungeonToDataBase(dungeon_purpose_id, location_list, history_list, advent
         chamber_purpose: room_purpose
       )
 
-      if created_room && created_room.valid? && new_room.getType != 'p'
-        numFurnishing = rand(3) + 1
+      if created_room && created_room.valid?
+        numFurnishing = 1
+        if new_room.getType != 'p'
+          numFurnishing = rand(3) + 3
+        end
         for i in 0.. numFurnishing do
           furniture = Furniture.find_or_create_by(item: furnishings_list[rand(furnishings_list.count)]['funishings'])
           RoomFurniture.create(room: created_room, furniture: furniture )

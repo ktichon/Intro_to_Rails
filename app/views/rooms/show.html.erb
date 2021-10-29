@@ -1,7 +1,14 @@
 <% content_for :title, "#{@room.dungeon.name} ##{@room.num }"%>
-
+<h2> #<%= @room.num%>,
+<% if @room.chamber_purpose == nil %>
+    <%= "Passage way"%>
+  <% else %>
+    <%= link_to @room.chamber_purpose.purpose, @room.chamber_purpose %>
+  <% end %>
+</h2>
 <ul>
-  <%= render partial: @room%>
+  <li>Dungeon: <%= link_to @room.dungeon.name,  @room.dungeon %> </li>
+  <li>Points: (<%=@room.x1 %>, <%=@room.y1 %>) (<%=@room.x2 %>, <%=@room.y2 %>) </li>
 </ul>
 <h3>Funiture in Room</h3>
 <ul>

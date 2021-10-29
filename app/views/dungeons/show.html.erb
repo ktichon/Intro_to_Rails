@@ -37,7 +37,7 @@
       <p>
          <%= link_to room.num, room %>
           <% if room.chamber_purpose != nil %>
-              <%= link_to room.chamber_purpose.purpose, room.chamber_purpose%>
+              <%=  link_to (truncate room.chamber_purpose.purpose), room.chamber_purpose%>
             <% end %>
       </p>
     </div>
