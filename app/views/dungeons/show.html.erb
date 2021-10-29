@@ -1,10 +1,10 @@
 <% content_for :title, @dungeon.name%>
 <%= render 'dungeon_search' %>
-<% size = 50%>
+<% size = 40%>
 
 
 
-<h2 class = "room">Dungeon Information</h2>
+<h2>Dungeon Information</h2>
 <ul>
   <li>Location: <%= @dungeon.location%> </li>
   <li>History: <%= @dungeon.key_event%> </li>
@@ -40,9 +40,6 @@
               <%= link_to room.chamber_purpose.purpose, room.chamber_purpose%>
             <% end %>
       </p>
-
-
     </div>
-
   <% end %>
 </div>

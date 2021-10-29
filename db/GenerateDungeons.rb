@@ -111,7 +111,7 @@ def create_dungeon(maxWidth, maxRooms, maxChambers, realtive_sizing )
 
   end
   valid_rooms.each do |resizeRoom|
-    resizeRoom.resizeX(min_x -1)
+    resizeRoom.resizeX(min_x)
   end
   max_x -= min_x
 

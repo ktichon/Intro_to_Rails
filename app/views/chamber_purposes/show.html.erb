@@ -1,9 +1,10 @@
-<% content_for :title, @chamber_purpose.dungeon_purpose.purpose + ": " + @chamber_purpose.purpose %>
+<% content_for :title, @chamber_purpose.dungeon_purpose.purpose + ": " + @chamber_roll %>
 
+<h2><%= @chamber_purpose.purpose%> </h2>
 <ul>
   <li>Dungeon Type: <%= link_to @chamber_purpose.dungeon_purpose.purpose, @chamber_purpose.dungeon_purpose %></li>
-  <li>Roll: <%= @chamber_roll%> <li>
-  <li>Dice odds:  <%= @chamber_odds%></li>
+  <li>Roll: <%= @chamber_roll%> </li>
+  <li>Dice odds: <%= ((@chamber_purpose.max_roll - @chamber_purpose.min_roll + 1)/@chamber_purpose.dungeon_purpose.total_roll.to_f * 100 ).round(2) %>%</li>
 
 </ul>
 <h3>Rooms</h3>
@@ -18,7 +19,7 @@
   <% @chamber_purpose.rooms.each do |room| %>
     <tr>
       <td><%= link_to room.dungeon.name, room.dungeon%></td>
-      <td><%= room.num %></td>
+      <td><%= link_to room.num, room %></td>
       <td><%= room.x1 %>, <%= room.y1 %></td>
       <td><%= room.x2 %>, <%= room.y2 %></td>
     </tr>

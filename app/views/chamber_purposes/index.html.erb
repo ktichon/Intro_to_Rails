@@ -1,27 +1,21 @@
-<% content_for :title, "All Chamber Purposes" %>
-<table class="table  table-hover">
+<% content_for :title, "Chamber Types" %>
+
+<div class="row">
+  <h2>Table of All Chamber Types</h2>
+</div>
+<div class="row">
+  <table class="table  table-hover">
   <tr>
-    <th>Purpose</th>
+    <th>Chamber Type</th>
     <th>Dungeon Type</th>
     <th>Roll</th>
+    <th>Dice Odds</th>
   </tr>
-  <% last_roll = 1%>
-
-  <% @chamber_purposes.each do |c_purpose| %>
-    <%if c_purpose.dice_odds < last_roll %>
-      <% last_roll = 1%>
-    <% end %>
-
-    <tr>
-      <td><%= link_to c_purpose.purpose, c_purpose%></td>
-       <td><%= link_to c_purpose.dungeon_purpose.purpose, c_purpose.dungeon_purpose%></td>
-      <% if last_roll == c_purpose.dice_odds%>
-        <td><%= c_purpose.dice_odds%></td>
-      <% else %>
-        <td><%= last_roll%>-<%= c_purpose.dice_odds%></td>
-      <% end %>
-      <% last_roll = c_purpose.dice_odds + 1 %>
-    </tr>
-  <% end %>
+  <%= render partial: @chamber_purposes %>
 </table>
-<%= paginate @chamber_purposes %>
+</div>
+<div class="row">
+  <%= paginate @chamber_purposes %>
+</div>
+
+

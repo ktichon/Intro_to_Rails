@@ -4,10 +4,14 @@
 
 .room {
   border: 1px solid black;
-  background-color: aqua;
+  background-color: #31C36B;
   display: flex;
   align-items: center;
 
+}
+
+.room a {
+  color: beige;
 }
 
 .room p{

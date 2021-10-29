@@ -3,3 +3,10 @@
 <ul>
   <%= render partial: @room%>
 </ul>
+<h3>Funiture in Room</h3>
+<ul>
+
+  <% @room.furnitures.each do |furniture| %>
+    <li><%= furniture.item %> </li>
+  <% end %>
+</ul>

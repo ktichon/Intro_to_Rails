@@ -8,7 +8,7 @@ class DungeonsController < ApplicationController
   def show
     dungeonTypes = DungeonPurpose.pluck(:purpose)
     @dungeonTypes = dungeonTypes.insert(0,'None')
-    @dungeon = Dungeon.find(params[:id])
+    @dungeon = Dungeon.includes(:rooms).find(params[:id])
 
   end
 

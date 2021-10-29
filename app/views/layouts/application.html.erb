@@ -10,10 +10,22 @@
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body>
-    <div class="container" >
-    <h1><%= yield(:title) %></h1>
-    <%= render partial: 'common/menu'%>
-    <%= yield %>
+  <body style="background-color:#97B37C;" >
+    <div class="container" style="background-color:#D4E196;">
+      <div class="row">
+        <h1 style="background-color:#C2FFA7;"><%= yield(:title) %></h1>
+      </div>
+      <div class ="row">
+        <div class ="col-sm-2 border-dark bg-success">
+          <%= render partial: 'common/menu'%>
+          </div>
+        <div class = "col-sm-10">
+          <%= yield %>
+        </div>
+        <div class="row">
+</div>
+      </div>
+
+    </div>
   </body>
 </html>

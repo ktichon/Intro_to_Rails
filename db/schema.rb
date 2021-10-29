@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_27_183841) do
+ActiveRecord::Schema.define(version: 2021_10_29_160309) do
 
   create_table "adventure_in_dungeons", force: :cascade do |t|
     t.integer "adventure_id", null: false
@@ -31,10 +31,11 @@ ActiveRecord::Schema.define(version: 2021_10_27_183841) do
 
   create_table "chamber_purposes", force: :cascade do |t|
     t.string "purpose"
-    t.integer "dice_odds"
+    t.integer "max_roll"
     t.integer "dungeon_purpose_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "min_roll"
     t.index ["dungeon_purpose_id"], name: "index_chamber_purposes_on_dungeon_purpose_id"
   end
 
@@ -42,6 +43,7 @@ ActiveRecord::Schema.define(version: 2021_10_27_183841) do
     t.string "purpose"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "total_roll"
   end
 
   create_table "dungeons", force: :cascade do |t|
@@ -56,6 +58,21 @@ ActiveRecord::Schema.define(version: 2021_10_27_183841) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "num_rooms"
     t.index ["dungeon_purpose_id"], name: "index_dungeons_on_dungeon_purpose_id"
+  end
+
+  create_table "furnitures", force: :cascade do |t|
+    t.string "item"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "room_furnitures", force: :cascade do |t|
+    t.integer "room_id", null: false
+    t.integer "furniture_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["furniture_id"], name: "index_room_furnitures_on_furniture_id"
+    t.index ["room_id"], name: "index_room_furnitures_on_room_id"
   end
 
   create_table "rooms", force: :cascade do |t|
@@ -77,6 +94,8 @@ ActiveRecord::Schema.define(version: 2021_10_27_183841) do
   add_foreign_key "adventure_in_dungeons", "dungeons"
   add_foreign_key "chamber_purposes", "dungeon_purposes"
   add_foreign_key "dungeons", "dungeon_purposes"
+  add_foreign_key "room_furnitures", "furnitures"
+  add_foreign_key "room_furnitures", "rooms"
   add_foreign_key "rooms", "chamber_purposes"
   add_foreign_key "rooms", "dungeons"
 end

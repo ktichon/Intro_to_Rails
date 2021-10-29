@@ -23,7 +23,8 @@ def getDir(direction)
 end
 
 
-
+RoomFurniture.delete_all
+Furniture.delete_all
 AdventureInDungeon.delete_all
 Adventure.delete_all
 Room.delete_all
@@ -42,12 +43,13 @@ csv_data = File.read(file_name)
 chamber_purposes_list = CSV.parse(csv_data, headers: true, encoding: "utf-8")
 
 chamber_purposes_list.each do |c_pur|
-  dungeon_purpose = DungeonPurpose.find_or_create_by(purpose: c_pur["d_purpose"])
+  dungeon_purpose = DungeonPurpose.find_or_create_by(purpose: c_pur["d_purpose"], total_roll: c_pur["top_roll"])
 
   if dungeon_purpose && dungeon_purpose.valid?
     chamber_purpose = dungeon_purpose.chamber_purposes.create(
       purpose: c_pur["chamber_purpose"],
-      dice_odds: c_pur["dice_odds"]
+      min_roll: c_pur["min_roll"],
+      max_roll: c_pur["max_roll"]
     )
   end
 end
@@ -68,10 +70,12 @@ csv_data = File.read(Rails.root.join("db/DungeonHistory.csv"))
 history_list = CSV.parse(csv_data, headers: true, encoding: "utf-8")
 csv_data = File.read(Rails.root.join("db/AdventureGoals.csv"))
 goals_list = CSV.parse(csv_data, headers: true, encoding: "utf-8")
+csv_data = File.read(Rails.root.join("db/furnishings.csv"))
+furnishings_list = CSV.parse(csv_data, headers: true, encoding: "utf-8")
 
 d_purpose_ids = DungeonPurpose.pluck(:id)
 
-def addDungeonToDataBase(dungeon_purpose_id, location_list, history_list, adventures_list, goals_list)
+def addDungeonToDataBase(dungeon_purpose_id, location_list, history_list, adventures_list, goals_list, furnishings_list)
   name = "Dungeon of the #{Faker::Emotion.adjective.capitalize} #{Faker::Games::DnD.background} #{Faker::Games::DnD.monster}"
   new_dungeon_details = create_dungeon(@max_width, @max_rooms, @max_chambers, @sizing )
   dungeon_purpose = DungeonPurpose.find(dungeon_purpose_id)
@@ -101,7 +105,7 @@ def addDungeonToDataBase(dungeon_purpose_id, location_list, history_list, advent
 
     dungeon_rooms = new_dungeon_details[:all_rooms]
     max_roll = dungeon_purpose.chamber_purposes.count;
-    roll_purpose = dungeon_purpose.chamber_purposes.order(:dice_odds)
+    roll_purpose = dungeon_purpose.chamber_purposes.order(:max_roll)
     room_number = 1;
 
     dungeon_rooms.each do |new_room|
@@ -109,18 +113,16 @@ def addDungeonToDataBase(dungeon_purpose_id, location_list, history_list, advent
       room_purpose = nil
 
       if new_room.getType != 'p'
-
         dice_roll = rand(max_roll) + 1
 
         roll_purpose.each do |rolled_pur|
-
-          if rolled_pur["dice_odds"] >= dice_roll
+          if rolled_pur["max_roll"] >= dice_roll
             room_purpose = rolled_pur
             break
           end
         end
       end
-      new_dungeon.rooms.create(
+      created_room = new_dungeon.rooms.create(
         room_type: new_room.getType,
         x1: new_room.getPoints[:x1],
         x2: new_room.getPoints[:x2],
@@ -129,6 +131,15 @@ def addDungeonToDataBase(dungeon_purpose_id, location_list, history_list, advent
         num: room_number,
         chamber_purpose: room_purpose
       )
+
+      if created_room && created_room.valid? && new_room.getType != 'p'
+        numFurnishing = rand(3) + 1
+        for i in 0.. numFurnishing do
+          furniture = Furniture.find_or_create_by(item: furnishings_list[rand(furnishings_list.count)]['funishings'])
+          RoomFurniture.create(room: created_room, furniture: furniture )
+        end
+
+      end
       room_number += 1
     end
 
@@ -139,11 +150,11 @@ end
 
 
 d_purpose_ids.each do |d_id|
-  addDungeonToDataBase(d_id, location_list, history_list, adventures, goals_list)
-  addDungeonToDataBase(d_purpose_ids.sample, location_list, history_list, adventures, goals_list)
+  addDungeonToDataBase(d_id, location_list, history_list, adventures, goals_list, furnishings_list)
+  addDungeonToDataBase(d_purpose_ids.sample, location_list, history_list, adventures, goals_list, furnishings_list)
 end
 
-
+puts "Created #{Furniture.count} Furnishings"
 puts "Created #{Adventure.count} Adventures"
 puts "Created #{DungeonPurpose.count} Dungeon Purposes"
 puts "Created #{ChamberPurpose.count} Chamber Purposes"
